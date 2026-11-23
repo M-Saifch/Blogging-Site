@@ -1,13 +1,11 @@
 from flask import Blueprint, render_template
 
+from app.models import Post
+
 main = Blueprint("main", __name__)
 
 
 @main.route("/")
 def home():
-    # Temporary stand-in for the Model (real database comes in Step 3)
-    posts = [
-        {"title": "My first post", "body": "Hello from the blog platform!"},
-        {"title": "Learning Flask", "body": "MVC makes code easier to organize."},
-    ]
+    posts = Post.query.order_by(Post.created_at.desc()).all()
     return render_template("index.html", posts=posts)
