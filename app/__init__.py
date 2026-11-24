@@ -11,7 +11,9 @@ def create_app():
     db.init_app(app)
 
     from app.routes.main import main
+    from app.routes.posts import posts
     app.register_blueprint(main)
+    app.register_blueprint(posts)
 
     with app.app_context():
         from app import models  # noqa: F401
