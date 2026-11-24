@@ -1,7 +1,7 @@
 from flask import Flask
 
 from config import Config
-from app.extensions import db
+from app.extensions import db, csrf
 
 
 def create_app():
@@ -9,6 +9,7 @@ def create_app():
     app.config.from_object(Config)
 
     db.init_app(app)
+    csrf.init_app(app)
 
     from app.routes.main import main
     from app.routes.posts import posts

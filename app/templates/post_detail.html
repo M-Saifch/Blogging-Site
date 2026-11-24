@@ -7,5 +7,13 @@
     <p><small>by {{ post.author.username }} on {{ post.created_at.strftime("%d %b %Y") }}</small></p>
     <div style="white-space: pre-wrap;">{{ post.body }}</div>
     <hr>
+    <p>
+        <a href="{{ url_for('posts.edit', post_id=post.id) }}">Edit</a>
+    </p>
+    <form method="POST" action="{{ url_for('posts.delete', post_id=post.id) }}"
+          onsubmit="return confirm('Delete this post permanently?');">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit">Delete</button>
+    </form>
     <p><a href="{{ url_for('main.home') }}">&larr; Back to all posts</a></p>
 {% endblock %}
