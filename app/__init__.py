@@ -13,8 +13,10 @@ def create_app():
 
     from app.routes.main import main
     from app.routes.posts import posts
+    from app.routes.auth import auth
     app.register_blueprint(main)
     app.register_blueprint(posts)
+    app.register_blueprint(auth)
 
     with app.app_context():
         from app import models  # noqa: F401
