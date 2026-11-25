@@ -1,29 +1,17 @@
 {% extends "base.html" %}
+{% from "macros.html" import render_field %}
 
 {% block title %}{{ heading }}{% endblock %}
 
 {% block content %}
-    <h2>{{ heading }}</h2>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-
-        <p>
-            {{ form.title.label }}<br>
-            {{ form.title(size=60) }}
-            {% for error in form.title.errors %}
-                <br><span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </p>
-
-        <p>
-            {{ form.body.label }}<br>
-            {{ form.body(rows=10, cols=60) }}
-            {% for error in form.body.errors %}
-                <br><span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </p>
-
-        <p>{{ form.submit() }}</p>
-    </form>
-    <p><a href="{{ url_for('main.home') }}">Cancel</a></p>
+    <div class="card">
+        <h2 class="page-title">{{ heading }}</h2>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ render_field(form.title) }}
+            {{ render_field(form.body, rows=10) }}
+            {{ form.submit(class="btn") }}
+            <a href="{{ url_for('main.home') }}" class="muted">Cancel</a>
+        </form>
+    </div>
 {% endblock %}

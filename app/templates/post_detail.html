@@ -3,19 +3,23 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-    <h2>{{ post.title }}</h2>
-    <p><small>by {{ post.author.username }} on {{ post.created_at.strftime("%d %b %Y") }}</small></p>
-    <div style="white-space: pre-wrap;">{{ post.body }}</div>
-    <hr>
+    <article class="card">
+        <h2 class="post-title">{{ post.title }}</h2>
+        <p class="meta">by {{ post.author.username }} &middot; {{ post.created_at.strftime("%d %b %Y") }}</p>
+        <div class="post-body">{{ post.body }}</div>
 
-    {% if current_user.is_authenticated and current_user.id == post.user_id %}
-        <p><a href="{{ url_for('posts.edit', post_id=post.id) }}">Edit</a></p>
-        <form method="POST" action="{{ url_for('posts.delete', post_id=post.id) }}"
-              onsubmit="return confirm('Delete this post permanently?');">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <button type="submit">Delete</button>
-        </form>
-    {% endif %}
+        {% if current_user.is_authenticated and current_user.id == post.user_id %}
+            <div class="post-actions">
+                <a class="btn btn-small btn-outline" href="{{ url_for('posts.edit', post_id=post.id) }}">Edit</a>
+                <form method="POST" action="{{ url_for('posts.delete', post_id=post.id) }}"
+                      class="inline-form"
+                      onsubmit="return confirm('Delete this post permanently?');">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                </form>
+            </div>
+        {% endif %}
+    </article>
 
     <p><a href="{{ url_for('main.home') }}">&larr; Back to all posts</a></p>
 {% endblock %}

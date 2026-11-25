@@ -1,44 +1,19 @@
 {% extends "base.html" %}
+{% from "macros.html" import render_field %}
 
 {% block title %}Sign Up{% endblock %}
 
 {% block content %}
-    <h2>Create an Account</h2>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-
-        <p>
-            {{ form.username.label }}<br>
-            {{ form.username(size=30) }}
-            {% for error in form.username.errors %}
-                <br><span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </p>
-
-        <p>
-            {{ form.email.label }}<br>
-            {{ form.email(size=30) }}
-            {% for error in form.email.errors %}
-                <br><span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </p>
-
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=30) }}
-            {% for error in form.password.errors %}
-                <br><span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </p>
-
-        <p>
-            {{ form.confirm_password.label }}<br>
-            {{ form.confirm_password(size=30) }}
-            {% for error in form.confirm_password.errors %}
-                <br><span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </p>
-
-        <p>{{ form.submit() }}</p>
-    </form>
+    <div class="card form-card">
+        <h2 class="page-title">Create an Account</h2>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ render_field(form.username) }}
+            {{ render_field(form.email) }}
+            {{ render_field(form.password) }}
+            {{ render_field(form.confirm_password) }}
+            {{ form.submit(class="btn") }}
+        </form>
+        <p class="muted">Already have an account? <a href="{{ url_for('auth.login') }}">Log in</a></p>
+    </div>
 {% endblock %}
