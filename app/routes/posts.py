@@ -1,8 +1,8 @@
 from flask import Blueprint, flash, redirect, render_template, url_for
-
+from flask_login import current_user, login_required
 from app.extensions import db
 from app.forms import PostForm
-from app.models import Post, User
+from app.models import Post 
 
 posts = Blueprint("posts", __name__, url_prefix="/post")
 
@@ -14,12 +14,11 @@ def detail(post_id):
 
 
 @posts.route("/new", methods=["GET", "POST"])
+@login_required
 def new():
     form = PostForm()
     if form.validate_on_submit():
-        # Temporary: until login exists (Step 7), use the first user as author
-        author = User.query.first()
-        post = Post(title=form.title.data, body=form.body.data, user_id=author.id)
+        post = Post(title=form.title.data, body=form.body.data, user_id=current_user.id)
         db.session.add(post)
         db.session.commit()
         flash("Post created!", "success")
@@ -47,3 +46,4 @@ def delete(post_id):
     db.session.commit()
     flash("Post deleted.", "success")
     return redirect(url_for("main.home"))
+
